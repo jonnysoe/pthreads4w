@@ -13,7 +13,8 @@ set MSVC_YYYY=
 set MSVC_EDITION=
 
 :: Get Latest Windows 10 SDK
-for /f "tokens=* USEBACKQ" %%A in (`dir /a:d /b "%ProgramFiles(x86)%\Windows Kits\10\bin\" ^| findstr "^[0-9]" ^| sort /r ^| head -1`) do set WIN_SDK=%%A
+:: "for /f" will always replaced the result, so the final result is the last line (latest version)
+for /f "tokens=* USEBACKQ" %%A in (`dir /a:d /b "%ProgramFiles(x86)%\Windows Kits\10\bin\" ^| findstr "^[0-9]"`) do set WIN_SDK=%%A
 if "%WIN_SDK%"=="" exit /b 2
 
 :: Get CPU architecture
@@ -23,7 +24,8 @@ set lowercase=for /L %%n in (1 1 2) do if %%n==2 ( for %%# in (a b c d e f g h i
 endlocal & set WIN_ARCH=%result%
 
 :: Get Latest MSVC
-for /f "tokens=* USEBACKQ" %%A in (`dir /a:d /b "%ProgramFiles(x86)%\Microsoft Visual Studio\" ^| findstr "^[0-9]" ^| sort /r ^| head -1`) do set MSVC_YYYY=%%A
+:: "for /f" will always replaced the result, so the final result is the last line (latest version)
+for /f "tokens=* USEBACKQ" %%A in (`dir /a:d /b "%ProgramFiles(x86)%\Microsoft Visual Studio\" ^| findstr "^[0-9]"`) do set MSVC_YYYY=%%A
 if "%MSVC_YYYY%"=="" exit /b 3
 
 :: Get MSVC Edition
